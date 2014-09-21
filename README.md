@@ -6,10 +6,10 @@
 Also see [omit-empty](https://github.com/jonschlinkert/omit-empty).
 
 ## Install
-#### Install with [npm](npmjs.org):
+#### Install with [npm](npmjs.org)
 
 ```bash
-npm i compact-object --save-dev
+npm i compact-object --save
 ```
 
 ## Run tests

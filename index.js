@@ -7,47 +7,42 @@
 
 'use strict';
 
-module.exports = function compactObj(o, noZero) {
-  var target = {};
-  var value;
+var isPlainObject = require('is-plain-object');
+var reduceObj = require('reduce-object');
 
-  for (var key in o) {
-    if (!o.hasOwnProperty(key)) {
-      // leave as early as possible
-      continue;
-    }
-    value = o[key];
-
-    if (isObject(value)) {
-      if (isEmpty(value)) {
-        continue;
+module.exports = function omitEmpty(o, noZero) {
+  return reduceObj(o, function (acc, value, key) {
+    if (isPlainObject(value) && !Array.isArray(value)) {
+      var val = omitEmpty(value, noZero);
+      if (!isEmpty(val)) {
+        acc[key] = val;
       }
-      target[key] = compactObj(value, noZero);
     } else if (Array.isArray(value)) {
-      if (isEmpty(value)) {
-        continue;
-      }
       do {
         value = [].concat.apply([], value);
-      } while(value.some(Array.isArray));
-      target[key] = value;
-    } else {
-      if (value === '' || (noZero && value === 0)) {
-        continue;
+      } while (value.some(Array.isArray));
+      if (value.length) {
+        acc[key] = value;
       }
-      target[key] = value;
+    } else if (!isEmpty(value, noZero)) {
+      acc[key] = value;
     }
-  }
-  return target;
+    return acc;
+  }, {});
 };
 
-function isObject(o) {
-  return typeof o === 'object' && !Array.isArray(o);
-}
-
-function isEmpty(o) {
-  if (o == null) {
+function isEmpty(o, noZero) {
+  if (o === null || o === undefined) {
     return true;
+  }
+  if (typeof o === 'boolean') {
+    return false;
+  }
+  if (typeof o === 'number') {
+    if (noZero && o === 0) {
+      return true;
+    }
+    return false;
   }
   if (o.length !== undefined) {
     return o.length === 0;
