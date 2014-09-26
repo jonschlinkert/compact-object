@@ -1,7 +1,7 @@
 {
   "name": "compact-object",
   "description": "Similar to omit-empty, recursively omits empty properties, but also compacts/flattens nested arrays in an object.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/jonschlinkert/compact-object",
   "author": {
     "name": "Jon Schlinkert",
@@ -60,6 +60,7 @@
     "value"
   ],
   "dependencies": {
+    "has-value": "^0.1.0",
     "is-plain-object": "^0.1.0",
     "reduce-object": "^0.1.2"
   }
