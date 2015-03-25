@@ -1,13 +1,13 @@
 /*!
  * compact-object <https://github.com/jonschlinkert/compact-object>
  *
- * Copyright (c) 2014 Jon Schlinkert, contributors.
- * Licensed under the MIT License
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
  */
 
 'use strict';
 
-var hasValue = require('has-value');
+var hasValues = require('has-values');
 var isPlainObject = require('is-plain-object');
 var reduceObj = require('reduce-object');
 
@@ -15,7 +15,7 @@ module.exports = function omitEmpty(o, noZero) {
   return reduceObj(o, function (acc, value, key) {
     if (isPlainObject(value) && !Array.isArray(value)) {
       var val = omitEmpty(value, noZero);
-      if (hasValue(val)) {
+      if (hasValues(val)) {
         acc[key] = val;
       }
     } else if (Array.isArray(value)) {
@@ -25,7 +25,7 @@ module.exports = function omitEmpty(o, noZero) {
       if (value.length) {
         acc[key] = value;
       }
-    } else if (hasValue(value, noZero)) {
+    } else if (hasValues(value, noZero)) {
       acc[key] = value;
     }
     return acc;
